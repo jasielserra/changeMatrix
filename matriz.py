@@ -14,10 +14,10 @@ def read_sequence():  # Read and validate a sequence of commands.
         return sqc
 
 
-def print_board(board):  # Print the Board.
+def print_board(board):
+    """Print the Board."""
     print("\n")
-    for row in board:
-        print("".join(row))
+    print(string(board))
     print("\n")
 
 
@@ -110,6 +110,12 @@ def save_array(name, board):  # Save the array with the 'S' command.
     with open(name.lower(), "w") as my_file:
         for item in board:
             my_file.write("".join(item) + "\n")
+
+def string(board):
+    l = []
+    for row in board:
+        l.append("".join(row))
+    return '\n'.join(l)
 
 
 def main():
