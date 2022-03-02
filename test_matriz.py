@@ -1,12 +1,8 @@
 from textwrap import dedent
 from matriz import create_array, string
 
-'''
-def string(board):
-    return '\n'.join((''.join(row) for row in board))
-'''
 
-def string():
+def test_create():
     board = create_array(['4', '5'])
     assert string(board) == dedent(
     '''\
@@ -17,7 +13,15 @@ def string():
     OOOO'''
     )
 
+
+'''
+def string(board):
+    return '\n'.join((''.join(row) for row in board))
+'''
+
+'''
 def test_create():
     board = create_array(['4','5'])
 
     assert len(board) == 5 and len(board[0]) == 4
+'''
