@@ -1,4 +1,5 @@
 # -*- coding: utf8 -*-
+BLANK = "O"
 
 
 def read_sequence():  # Read and validate a sequence of commands.
@@ -21,13 +22,9 @@ def print_board(board):
     print("\n")
 
 
-def create_array(cmd):  # Create a array - 'I' Command.
-    board = []
-    col, line = cmd
-
-    for x in range(int(line)):
-        board.append(["O"] * int(col))
-    return board
+def create_array(cmd, value=BLANK):  # Create a array - 'I' Command.
+    col, row = int(cmd[0]), int(cmd[1])
+    return [[value] * col for _ in range(row)]
 
 
 def clean_array(board):  # Clean a array - 'C' Command.
