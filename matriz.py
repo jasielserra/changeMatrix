@@ -112,10 +112,7 @@ def save_array(name, board):  # Save the array with the 'S' command.
             my_file.write("".join(item) + "\n")
 
 def string(board):
-    l = []
-    for row in board:
-        l.append("".join(row))
-    return '\n'.join(l)
+    return '\n'.join(("".join(row) for row in board))
 
 
 def main():
