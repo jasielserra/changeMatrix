@@ -23,7 +23,7 @@ def print_board(board):
 
 
 def create_array(cmd, value=BLANK):  # Create a array - 'I' Command.
-    col, row = int(cmd[0]), int(cmd[1])
+    col, row = int(cmd[0]), int(cmd[1]) # To Do
     return [[value] * col for _ in range(row)]
 
 
