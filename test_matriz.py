@@ -1,5 +1,5 @@
 from textwrap import dedent
-from matriz import create_array, string
+from matriz import create_array, string, clean_array
 
 
 def test_create():
@@ -11,6 +11,18 @@ def test_create():
     OOOO
     OOOO
     OOOO'''
+    )
+
+def test_clean():
+    board = create_array(['4','5'], 'X')
+    board = clean_array(board)
+    assert string(board) == dedent(
+        '''\
+        OOOO
+        OOOO
+        OOOO
+        OOOO
+        OOOO'''
     )
 
 

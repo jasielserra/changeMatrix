@@ -1,6 +1,17 @@
 # -*- coding: utf8 -*-
 BLANK = "O"
 
+def width(board):
+    return len(board[0])
+
+
+def height(board):
+    return len(board)
+
+def set_item(board, col, row, value):
+    board[row][col] = value
+
+
 
 def read_sequence():  # Read and validate a sequence of commands.
     charValid = ("ICLVHKFSX")
@@ -27,10 +38,10 @@ def create_array(cmd, value=BLANK):  # Create a array - 'I' Command.
     return [[value] * col for _ in range(row)]
 
 
-def clean_array(board):  # Clean a array - 'C' Command.
-    for line in range(0, len(board)):
-        for col in range(0, len(board[line])):
-            board[line][col] = "O"
+def clean_array(board, value=BLANK):  # Clean a array - 'C' Command.
+    for row in range(height(board)):
+        for col in range(width(board)):
+            set_item(board, col, row, value)
     return board
 
 
