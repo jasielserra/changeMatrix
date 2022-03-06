@@ -53,10 +53,12 @@ def clean_array(board, value=BLANK):
     return board
 
 
-def color_pixel(cmd, board):  # Change the color of one pixel - 'L' Command.
-    col, line, color = cmd
+def color_pixel(cmd, board):
+    """ Change the color of one pixel - 'L' Command. """
+    col, row, color = int(cmd[0]), int(cmd[1]), cmd[2]
 
-    board[int(line) - 1][int(col) - 1] = color
+    set_item(board, (col-1, row-1), color)
+
     return board
 
 
