@@ -14,8 +14,7 @@ def y(coord):
     return coord[1]
 
 def set_item(board, coord, value):
-    board[y(coord)][x(coord)] = value
-
+    board[y(coord) - 1][x(coord) - 1] = value
 
 
 def read_sequence():  # Read and validate a sequence of commands.
@@ -49,15 +48,14 @@ def clean_array(board, value=BLANK):
     # TODO: range conhece muito sobre a estrutura do board.
     for row in range(height(board)):
         for col in range(width(board)):
-            set_item(board,(col,row), value)
+            set_item(board, (col, row), value)
     return board
 
 
 def color_pixel(cmd, board):
     """ Change the color of one pixel - 'L' Command. """
-    col, row, color = int(cmd[0]), int(cmd[1]), cmd[2]
-
-    set_item(board, (col-1, row-1), color)
+    coord, color = (int(cmd[0]), int(cmd[1])), cmd[2] #TODO
+    set_item(board, coord, color)
 
     return board
 
