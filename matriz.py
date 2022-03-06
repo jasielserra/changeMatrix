@@ -46,8 +46,8 @@ def create_array(cmd, value=BLANK):
 def clean_array(board, value=BLANK):
     """ Clean a array - 'C' Command."""
     # TODO: range conhece muito sobre a estrutura do board.
-    for row in range(height(board)):
-        for col in range(width(board)):
+    for row in range(1, height(board) + 1):
+        for col in range(1, width(board) + 1):
             set_item(board, (col, row), value)
     return board
 
