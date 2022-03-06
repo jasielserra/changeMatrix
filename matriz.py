@@ -4,12 +4,17 @@ BLANK = "O"
 def width(board):
     return len(board[0])
 
-
 def height(board):
     return len(board)
 
-def set_item(board, col, row, value):
-    board[row][col] = value
+def x(coord):
+    return coord[0]
+
+def y(coord):
+    return coord[1]
+
+def set_item(board, coord, value):
+    board[y(coord)][x(coord)] = value
 
 
 
@@ -33,15 +38,18 @@ def print_board(board):
     print("\n")
 
 
-def create_array(cmd, value=BLANK):  # Create a array - 'I' Command.
-    col, row = int(cmd[0]), int(cmd[1]) # To Do
+def create_array(cmd, value=BLANK):
+    """Create a array - 'I' Command."""
+    col, row = int(cmd[0]), int(cmd[1]) # TODO
     return [[value] * col for _ in range(row)]
 
 
-def clean_array(board, value=BLANK):  # Clean a array - 'C' Command.
+def clean_array(board, value=BLANK):
+    """ Clean a array - 'C' Command."""
+    # TODO: range conhece muito sobre a estrutura do board.
     for row in range(height(board)):
         for col in range(width(board)):
-            set_item(board, col, row, value)
+            set_item(board,(col,row), value)
     return board
 
 
