@@ -17,7 +17,10 @@ def set_item(board, coord, value):
     board[y(coord) - 1][x(coord) - 1] = value
 
 
-def read_sequence():  # Read and validate a sequence of commands.
+def read_sequence():
+    """
+    Read and validate a sequence of commands.
+    """
     charValid = ("ICLVHKFSX")
     sqc = input("Digite um comando: ").upper()
     sqc = sqc.split()
