@@ -1,6 +1,7 @@
 from textwrap import dedent
 import pytest
-from matriz import create_array, string, clean_array, color_pixel
+from matriz import create_array, string, clean_array, color_pixel, ver_pixel
+
 
 @pytest.fixture
 def board():
@@ -39,6 +40,16 @@ def test_pixel(board):
         OOOO'''
     )
 
+def test_vertical(board):
+    board = ver_pixel('2 2 4 W'.split(), board)
+    assert string(board) == dedent(
+        '''\
+        OOOO
+        OWOO
+        OWOO
+        OWOO
+        OOOO'''
+    )
 
 '''
 def string(board):
