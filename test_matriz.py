@@ -1,6 +1,6 @@
 from textwrap import dedent
 import pytest
-from matriz import create_array, string, clean_array, color_pixel, ver_pixel, hor_pixel
+from matriz import create_array, string, clean_array, color_pixel, ver_pixel, hor_pixel, block_pixel
 
 
 @pytest.fixture
@@ -61,14 +61,14 @@ def test_horizontal(board):
         OOOO
         OOOO'''
     )
-'''
-def string(board):
-    return '\n'.join((''.join(row) for row in board))
-'''
 
-'''
-def test_create():
-    board = create_array(['4','5'])
-
-    assert len(board) == 5 and len(board[0]) == 4
-'''
+def test_block(board):
+    board = block_pixel('2 2 3 4 W'.split(), board)
+    assert string(board) == dedent(
+        '''\
+        OOOO
+        OOOO
+        OWWO
+        OOOO
+        OOOO'''
+    )

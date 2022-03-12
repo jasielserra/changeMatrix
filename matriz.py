@@ -81,7 +81,8 @@ def hor_pixel(cmd, board):
     return board
 
 
-def block_pixel(cmd, board):  # Change color of an entire block - 'K' Command.
+def block_pixel(cmd, board):
+    """Change color of an entire block - 'K' Command."""
     colIni, lineIni, colEnd, lineEnd, color = cmd
 
     for hor in range(int(colIni) - 1, int(colEnd)):
