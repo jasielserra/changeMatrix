@@ -25,6 +25,9 @@ def set_many(board, coords, value):
     for c in coords:
         set_item(board, c, value)
 
+def coords_of(board):
+    return region(1, 1, width(board), height(board))
+
 
 def read_sequence():
     """
@@ -58,8 +61,7 @@ def create_array(cmd, value=BLANK):
 def clean_array(board, value=BLANK):
     """ Clean a array - 'C' Command."""
     # TODO: range conhece muito sobre a estrutura do board.
-    for coord in region(1, 1, width(board), height(board)):
-        set_item(board, coord, value)
+    set_many(board, region(1, 1, width(board), height(board)), value)
     return board
 
 
