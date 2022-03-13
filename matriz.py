@@ -81,15 +81,14 @@ def hor_pixel(cmd, board):
     """Change the color of a line - 'H' Command."""
     col_start, col_end, row, color = int(cmd[0]), int(cmd[1]), int(cmd[2]), cmd[3]
 
-    for col in range(col_start, col_end + 1):
-        set_item(board, (col, row), color)
+    for coord in region(col_start, row, col_end, row):
+        set_item(board, coord, color)
     return board
 
 
 def block_pixel(cmd, board):
     """Change color of an entire block - 'K' Command."""
     col_start, row_start, col_end, row_end, color = int(cmd[0]), int(cmd[1]), int(cmd[2]), int(cmd[3]), cmd[4]
-
     for coord in region(col_start, row_start, col_end, row_end):
         set_item(board, coord, color)
     return board
