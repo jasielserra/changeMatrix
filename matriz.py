@@ -21,6 +21,10 @@ def region(col_start, row_start, col_end, row_end):
         for col in range(col_start, col_end + 1):
             yield col, row
 
+def set_many(board, coords, value):
+    for c in coords:
+        set_item(board, c, value)
+
 
 def read_sequence():
     """
