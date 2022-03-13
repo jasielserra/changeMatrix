@@ -26,7 +26,7 @@ def set_many(board, coords, value):
         set_item(board, c, value)
 
 def coords_of(board):
-    return region(1, 1, width(board), height(board))
+    yield from region(1, 1, width(board), height(board))
 
 
 def read_sequence():
@@ -61,7 +61,7 @@ def create_array(cmd, value=BLANK):
 def clean_array(board, value=BLANK):
     """ Clean a array - 'C' Command."""
     # TODO: range conhece muito sobre a estrutura do board.
-    set_many(board, region(1, 1, width(board), height(board)), value)
+    set_many(board, coords_of(board), value)
     return board
 
 
@@ -77,8 +77,8 @@ def ver_pixel(cmd, board):
     """Change the color of a column - 'V' Command."""
     col, row_start, row_end, color = int(cmd[0]), int(cmd[1]), int(cmd[2]), cmd[3]
 
-    for coord in region(col, row_start, col, row_end):
-        set_item(board, coord, color)
+    set_many(board, region(col, row_start, col, row_end), color)
+
     return board
 
 
