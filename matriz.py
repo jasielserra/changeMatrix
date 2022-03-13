@@ -72,8 +72,8 @@ def ver_pixel(cmd, board):
     """Change the color of a column - 'V' Command."""
     col, row_start, row_end, color = int(cmd[0]), int(cmd[1]), int(cmd[2]), cmd[3]
 
-    for row in range(row_start, row_end + 1):
-        set_item(board, (col, row), color)
+    for coord in region(col, row_start, col, row_end):
+        set_item(board, coord, color)
     return board
 
 
