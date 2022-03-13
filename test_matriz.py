@@ -67,8 +67,8 @@ def test_block(board):
     assert string(board) == dedent(
         '''\
         OOOO
-        OOOO
         OWWO
-        OOOO
+        OWWO
+        OWWO
         OOOO'''
     )

@@ -16,6 +16,11 @@ def y(coord):
 def set_item(board, coord, value):
     board[y(coord) - 1][x(coord) - 1] = value
 
+def region(col_start, row_start, col_end, row_end):
+    for row in range(row_start, row_end + 1):
+        for col in range(col_start, col_end + 1):
+            yield col, row
+
 
 def read_sequence():
     """
@@ -83,11 +88,10 @@ def hor_pixel(cmd, board):
 
 def block_pixel(cmd, board):
     """Change color of an entire block - 'K' Command."""
-    colIni, lineIni, colEnd, lineEnd, color = cmd
+    col_start, row_start, col_end, row_end, color = int(cmd[0]), int(cmd[1]), int(cmd[2]), int(cmd[3]), cmd[4]
 
-    for hor in range(int(colIni) - 1, int(colEnd)):
-        for ver in range(int(lineIni) - 1, int(lineEnd)):
-            board[int(ver)][int(hor)] = color
+    for coord in region(col_start, row_start, col_end, row_end):
+        set_item(board, coord, color)
     return board
 
 
