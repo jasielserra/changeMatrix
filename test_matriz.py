@@ -1,6 +1,9 @@
+import io
 from textwrap import dedent
+from unittest.mock import patch
+
 import pytest
-from matriz import create_array, string, clean_array, color_pixel, ver_pixel, hor_pixel, block_pixel
+from matriz import create_array, string, clean_array, color_pixel, ver_pixel, hor_pixel, block_pixel, save_array
 
 
 @pytest.fixture
@@ -72,3 +75,10 @@ def test_block(board):
         OWWO
         OOOO'''
     )
+
+def test_save(board):
+    with patch('builtins.open', spec=io.IOBase) as mock:
+        save_array('out.bmp', board)
+
+    file = mock.return_value.__enter__.return_value
+    file.write.assert_called_once_with(string(board))
