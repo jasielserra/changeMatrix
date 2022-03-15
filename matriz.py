@@ -90,46 +90,37 @@ def block_pixel(cmd, board):
     return board
 
 
-def out_range(board, coord):
+def contains(board, coord):
     """Check if a cmd is out of list range."""
-    X = x(coord)
-    Y = y(coord)
-
-    line = len(board)
-    col = len(board[0])
-
-    if (X >= 0 and X < col) and (Y >= 0 and Y < line):
-        return True
-    else:
-        return False
+    return 1 <= x(coord) <= width(board) and 1 <= y(coord) <= height(board)
 
 
 def fill_pixel(cmd, board):
     """ Fill a continuous region 'F' command."""
     col, row, new_color = int(cmd[0]), int(cmd[1]), cmd[2]
 
-    old_color = get_item(board,(col,row))
+    old_color = contains(board,(col,row))
 
-    if out_range(board, (row, col)):
+    if contains(board, (row, col)):
         set_item(board,(col,row), new_color)
 
         neighbor = (col - 1, row)
-        if out_range(board, neighbor):
+        if contains(board, neighbor):
             if get_item(board, neighbor) == old_color:
                 fill_pixel(list(neighbor) + [new_color], board)
 
         neighbor = (col + 1, row)
-        if out_range(board, neighbor):
+        if contains(board, neighbor):
             if get_item(board, neighbor) == old_color:
                 fill_pixel(list(neighbor) + [new_color], board)
 
         neighbor = (col, row - 1)
-        if out_range(board, neighbor):
+        if contains(board, neighbor):
             if get_item(board, neighbor) == old_color:
                 fill_pixel(list(neighbor) + [new_color], board)
 
         neighbor = (col, row + 1)
-        if out_range(board, neighbor):
+        if contains(board, neighbor):
             if get_item(board, neighbor) == old_color:
                 fill_pixel(list(neighbor) + [new_color], board)
 
