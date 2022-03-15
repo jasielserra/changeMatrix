@@ -45,13 +45,6 @@ def read_sequence():
         return sqc
 
 
-def print_board(board):
-    """Print the Board."""
-    print("\n")
-    print(string(board))
-    print("\n")
-
-
 def create_array(cmd, value=BLANK):
     """Create a array - 'I' Command."""
     col, row = int(cmd[0]), int(cmd[1]) # TODO
@@ -94,7 +87,8 @@ def block_pixel(cmd, board):
     return board
 
 
-def out_range(board, Y, X):  # Check if a cmd is out of list range.
+def out_range(board, Y, X):
+    """Check if a cmd is out of list range."""
     line = len(board)
     col = len(board[0])
 
@@ -104,7 +98,10 @@ def out_range(board, Y, X):  # Check if a cmd is out of list range.
         return False
 
 
-def fill_pixel(cmd, board):  # Fill a continuous region 'F' command.
+def fill_pixel(cmd, board):
+    """ Fill a continuous region 'F' command."""
+    cmd[1] = int(cmd[1]) - 1
+    cmd[2] = int(cmd[2]) - 1
     col, line, chgColor = cmd
 
     color = board[line][col]
@@ -165,8 +162,6 @@ def main():
                 board = block_pixel(cmd[1:6], board)
 
             elif cmd[0] == "F":
-                cmd[1] = int(cmd[1]) - 1
-                cmd[2] = int(cmd[2]) - 1
                 board = fill_pixel(cmd[1:4], board)
 
             elif cmd[0] == "S":
@@ -178,7 +173,7 @@ def main():
             else:
                 continue
 
-            print_board(board)
+            print(string(board))
 
         except:
             print("\nComando inválido!\n")
