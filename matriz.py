@@ -118,17 +118,20 @@ def fill_pixel(cmd, board):
             if get_item(board, neighbor) == old_color:
                 fill_pixel(list(neighbor) + [new_color], board)
 
-        if out_range(board, row, col + 1):
-            if board[row][col + 1] == old_color:
-                fill_pixel([col + 1, row, new_color], board)
+        neighbor = (col + 1, row)
+        if out_range(board, neighbor):
+            if get_item(board, neighbor) == old_color:
+                fill_pixel(list(neighbor) + [new_color], board)
 
-        if out_range(board, row - 1, col):
-            if board[row - 1][col] == old_color:
-                fill_pixel([col, row - 1, new_color], board)
+        neighbor = (col, row - 1)
+        if out_range(board, neighbor):
+            if get_item(board, neighbor) == old_color:
+                fill_pixel(list(neighbor) + [new_color], board)
 
-        if out_range(board, row + 1, col):
-            if board[row + 1][col] == old_color:
-                fill_pixel([col, row + 1, new_color], board)
+        neighbor = (col, row + 1)
+        if out_range(board, neighbor):
+            if get_item(board, neighbor) == old_color:
+                fill_pixel(list(neighbor) + [new_color], board)
 
     return board
 
