@@ -110,7 +110,7 @@ def fill_pixel(cmd, board):
 
     old_color = get_item(board,(col,row))
 
-    if out_range(board, row, col):
+    if out_range(board, (row, col)):
         set_item(board,(col,row), new_color)
 
         neighbor = (col - 1, row)
