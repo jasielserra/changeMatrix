@@ -100,30 +100,28 @@ def out_range(board, Y, X):
 
 def fill_pixel(cmd, board):
     """ Fill a continuous region 'F' command."""
-    cmd[1] = int(cmd[1]) - 1
-    cmd[2] = int(cmd[2]) - 1
-    col, line, chgColor = cmd
+    col, row, new_color = int(cmd[0]), int(cmd[1]), cmd[2]
 
-    color = board[line][col]
+    old_color = board[row][col]
 
-    if out_range(board, line, col):
-        board[line][col] = chgColor
+    if out_range(board, row, col):
+        board[row][col] = new_color
 
-        if out_range(board, line, col - 1):
-            if board[line][col - 1] == color:
-                fill_pixel([col - 1, line, chgColor], board)
+        if out_range(board, row, col - 1):
+            if board[row][col - 1] == old_color:
+                fill_pixel([col - 1, row, new_color], board)
 
-        if out_range(board, line, col + 1):
-            if board[line][col + 1] == color:
-                fill_pixel([col + 1, line, chgColor], board)
+        if out_range(board, row, col + 1):
+            if board[row][col + 1] == old_color:
+                fill_pixel([col + 1, row, new_color], board)
 
-        if out_range(board, line - 1, col):
-            if board[line - 1][col] == color:
-                fill_pixel([col, line - 1, chgColor], board)
+        if out_range(board, row - 1, col):
+            if board[row - 1][col] == old_color:
+                fill_pixel([col, row - 1, new_color], board)
 
-        if out_range(board, line + 1, col):
-            if board[line + 1][col] == color:
-                fill_pixel([col, line + 1, chgColor], board)
+        if out_range(board, row + 1, col):
+            if board[row + 1][col] == old_color:
+                fill_pixel([col, row + 1, new_color], board)
 
     return board
 
