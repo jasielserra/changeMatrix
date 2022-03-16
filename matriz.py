@@ -101,10 +101,17 @@ def block_pixel(cmd, board):
 def fill_pixel(cmd, board):
     """ Fill a continuous region 'F' command."""
     col, row, new_color = int(cmd[0]), int(cmd[1]), cmd[2]
+
+    def inside(coord):
+        return contains(board, coord)
+
+    def same_color(neighbor):
+        return get_item(board, neighbor) == old_color
+
     coord = col, row
     old_color = get_item(board,coord)
 
-    if not contains(board, coord):
+    if not inside(coord):
         return board
 
     set_item(board,coord, new_color)
@@ -113,9 +120,9 @@ def fill_pixel(cmd, board):
     neighbor = (offset(coord, rel) for rel in surrounding )
 
     for n in neighbor:
-        if contains(board, n):
-            if get_item(board, neighbor) == old_color:
-                fill_pixel(list(neighbor) + [new_color], board)
+        if inside(n):
+            if same_color(n):
+                fill_pixel(list(n) + [new_color], board)
 
     return board
 
