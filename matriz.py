@@ -13,6 +13,9 @@ def x(coord):
 def y(coord):
     return coord[1]
 
+def offset(coord, rel):
+    return x(coord) + x(rel), y(coord) + y(rel)
+
 def set_item(board, coord, value):
     board[y(coord) - 1][x(coord) - 1] = value
 
@@ -98,33 +101,21 @@ def block_pixel(cmd, board):
 def fill_pixel(cmd, board):
     """ Fill a continuous region 'F' command."""
     col, row, new_color = int(cmd[0]), int(cmd[1]), cmd[2]
+    coord = col, row
+    old_color = get_item(board,coord)
 
-    old_color = get_item(board,(col,row))
-
-    if not contains(board, (col,row)):
+    if not contains(board, coord):
         return board
 
-    set_item(board,(col,row), new_color)
+    set_item(board,coord, new_color)
 
-    neighbor = (col - 1, row)
-    if contains(board, neighbor):
-        if get_item(board, neighbor) == old_color:
-            fill_pixel(list(neighbor) + [new_color], board)
+    surrounding = (-1,0), (1,0), (0,-1), (0, 1)
+    neighbor = (offset(coord, rel) for rel in surrounding )
 
-    neighbor = (col + 1, row)
-    if contains(board, neighbor):
-        if get_item(board, neighbor) == old_color:
-            fill_pixel(list(neighbor) + [new_color], board)
-
-    neighbor = (col, row - 1)
-    if contains(board, neighbor):
-        if get_item(board, neighbor) == old_color:
-            fill_pixel(list(neighbor) + [new_color], board)
-
-    neighbor = (col, row + 1)
-    if contains(board, neighbor):
-        if get_item(board, neighbor) == old_color:
-            fill_pixel(list(neighbor) + [new_color], board)
+    for n in neighbor:
+        if contains(board, n):
+            if get_item(board, neighbor) == old_color:
+                fill_pixel(list(neighbor) + [new_color], board)
 
     return board
 
