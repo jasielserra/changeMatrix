@@ -24,6 +24,11 @@ def region(col_start, row_start, col_end, row_end):
         for col in range(col_start, col_end + 1):
             yield col, row
 
+def contains(board, coord):
+    """Check if a cmd is out of list range."""
+    return 1 <= x(coord) <= width(board) and 1 <= y(coord) <= height(board)
+
+
 def set_many(board, coords, value):
     for c in coords:
         set_item(board, c, value)
@@ -90,16 +95,11 @@ def block_pixel(cmd, board):
     return board
 
 
-def contains(board, coord):
-    """Check if a cmd is out of list range."""
-    return 1 <= x(coord) <= width(board) and 1 <= y(coord) <= height(board)
-
-
 def fill_pixel(cmd, board):
     """ Fill a continuous region 'F' command."""
     col, row, new_color = int(cmd[0]), int(cmd[1]), cmd[2]
 
-    old_color = contains(board,(col,row))
+    old_color = get_item(board,(col,row))
 
     if contains(board, (row, col)):
         set_item(board,(col,row), new_color)

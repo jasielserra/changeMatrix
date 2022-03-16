@@ -82,6 +82,7 @@ def test_fill(board):
         board = color_pixel(f'{n} {n} X'.split(), board)
 
     board = fill_pixel('3 2 +'.split(), board)
+
     assert string(board) == dedent(
         '''\
         X+++
