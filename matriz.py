@@ -101,28 +101,30 @@ def fill_pixel(cmd, board):
 
     old_color = get_item(board,(col,row))
 
-    if contains(board, (row, col)):
-        set_item(board,(col,row), new_color)
+    if not contains(board, (col,row)):
+        return board
 
-        neighbor = (col - 1, row)
-        if contains(board, neighbor):
-            if get_item(board, neighbor) == old_color:
-                fill_pixel(list(neighbor) + [new_color], board)
+    set_item(board,(col,row), new_color)
 
-        neighbor = (col + 1, row)
-        if contains(board, neighbor):
-            if get_item(board, neighbor) == old_color:
-                fill_pixel(list(neighbor) + [new_color], board)
+    neighbor = (col - 1, row)
+    if contains(board, neighbor):
+        if get_item(board, neighbor) == old_color:
+            fill_pixel(list(neighbor) + [new_color], board)
 
-        neighbor = (col, row - 1)
-        if contains(board, neighbor):
-            if get_item(board, neighbor) == old_color:
-                fill_pixel(list(neighbor) + [new_color], board)
+    neighbor = (col + 1, row)
+    if contains(board, neighbor):
+        if get_item(board, neighbor) == old_color:
+            fill_pixel(list(neighbor) + [new_color], board)
 
-        neighbor = (col, row + 1)
-        if contains(board, neighbor):
-            if get_item(board, neighbor) == old_color:
-                fill_pixel(list(neighbor) + [new_color], board)
+    neighbor = (col, row - 1)
+    if contains(board, neighbor):
+        if get_item(board, neighbor) == old_color:
+            fill_pixel(list(neighbor) + [new_color], board)
+
+    neighbor = (col, row + 1)
+    if contains(board, neighbor):
+        if get_item(board, neighbor) == old_color:
+            fill_pixel(list(neighbor) + [new_color], board)
 
     return board
 
