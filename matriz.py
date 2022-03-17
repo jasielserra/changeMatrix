@@ -1,4 +1,6 @@
 # -*- coding: utf8 -*-
+from collections import deque
+
 BLANK = "O"
 
 def width(board):
@@ -30,6 +32,36 @@ def region(col_start, row_start, col_end, row_end):
 def contains(board, coord):
     """Check if a cmd is out of list range."""
     return 1 <= x(coord) <= width(board) and 1 <= y(coord) <= height(board)
+
+def flood(coord, inside, key, strategy=((-1,0), (1,0), (0,-1), (0, 1))):
+    if not inside(coord):
+        return
+
+    yield coord
+
+    neighbor = (offset(coord, rel) for rel in strategy)
+
+    for n in neighbor:
+        if inside(n) and key(n):
+                yield from flood(n, inside, key)
+
+def flood(original, inside, key, strategy=((-1,0), (1,0), (0,-1), (0, 1))):
+    visited = set()
+    pending = deque((original,))
+
+    while pending:
+        coord = pending.pop()
+        visited.add(coord)
+
+        yield coord
+
+        neighbors = (offset(coord, rel) for rel in strategy)
+
+        for n in neighbors:
+            if (n not in visited
+                    and inside(n)
+                    and key(n)):
+                pending.append(n)
 
 
 def set_many(board, coords, value):
@@ -97,32 +129,20 @@ def block_pixel(cmd, board):
     set_many(board, region(col_start, row_start, col_end, row_end), color)
     return board
 
-
 def fill_pixel(cmd, board):
     """ Fill a continuous region 'F' command."""
     col, row, new_color = int(cmd[0]), int(cmd[1]), cmd[2]
 
-    def inside(coord):
+    coord = col, row
+    old_color = get_item(board, coord)
+
+    def bound(coord):
         return contains(board, coord)
 
     def same_color(neighbor):
         return get_item(board, neighbor) == old_color
 
-    coord = col, row
-    old_color = get_item(board,coord)
-
-    if not inside(coord):
-        return board
-
-    set_item(board,coord, new_color)
-
-    surrounding = (-1,0), (1,0), (0,-1), (0, 1)
-    neighbor = (offset(coord, rel) for rel in surrounding )
-
-    for n in neighbor:
-        if inside(n):
-            if same_color(n):
-                fill_pixel(list(n) + [new_color], board)
+    set_many(board, flood(coord, inside=bound, key=same_color), new_color)
 
     return board
 
