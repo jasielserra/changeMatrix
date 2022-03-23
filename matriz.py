@@ -100,11 +100,9 @@ def clean_array(board, value=BLANK):
     return board
 
 
-def color_pixel(cmd, board):
+def color_pixel(board, coord, color):
     """ Change the color of one pixel - 'L' Command. """
-    coord, color = (int(cmd[0]), int(cmd[1])), cmd[2] #TODO
     set_item(board, coord, color)
-
     return board
 
 
@@ -168,7 +166,7 @@ def main():
                 board = create_array(int(cmd[0]), int(cmd[1]))
 
             elif cmd[0] == "L":
-                board = color_pixel(cmd[1:4], board)
+                board = color_pixel(board, (int(cmd[0])), int(cmd[1]), cmd[2])
 
             elif cmd[0] == "V":
                 board = ver_pixel(cmd[1:5], board)
