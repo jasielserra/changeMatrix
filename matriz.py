@@ -123,9 +123,8 @@ def block_pixel(board, col_start, row_start, col_end, row_end, color):
     set_many(board, region(col_start, row_start, col_end, row_end), color)
     return board
 
-def fill_pixel(cmd, board):
+def fill_pixel(board, col, row, new_color):
     """ Fill a continuous region 'F' command."""
-    col, row, new_color = int(cmd[0]), int(cmd[1]), cmd[2]
 
     coord = col, row
     old_color = get_item(board, coord)
@@ -175,7 +174,7 @@ def main():
                 board = block_pixel(board, int(cmd[0]), int(cmd[1]), int(cmd[2]), int(cmd[3]), cmd[4])
 
             elif cmd[0] == "F":
-                board = fill_pixel(cmd[1:4], board)
+                board = fill_pixel(board, int(cmd[0]), int(cmd[1]), cmd[2])
 
             elif cmd[0] == "S":
                 save_array(cmd[1], board)
