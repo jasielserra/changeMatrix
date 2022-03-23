@@ -9,7 +9,7 @@ from matriz import create_array, string, clean_array, color_pixel, ver_pixel, ho
 
 @pytest.fixture
 def board():
-    return create_array(['4', '5'])
+    return create_array(4, 5)
 
 def test_create(board):
     assert string(board) == dedent(
@@ -22,7 +22,7 @@ def test_create(board):
     )
 
 def test_clean():
-    board = create_array(['4','5'], 'X')
+    board = create_array(4, 5, 'X')
     board = clean_array(board)
     assert string(board) == dedent(
         '''\
@@ -34,7 +34,7 @@ def test_clean():
     )
 
 def test_pixel(board):
-    board = color_pixel('2 2 W'.split(), board)
+    board = color_pixel(2, 2, 'W', board)
     assert string(board) == dedent(
         '''\
         OOOO
