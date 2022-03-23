@@ -34,7 +34,7 @@ def test_clean():
     )
 
 def test_pixel(board):
-    board = color_pixel(board, 2, 2, 'W')
+    board = color_pixel(board, (2, 2), 'W')
     assert string(board) == dedent(
         '''\
         OOOO
@@ -79,9 +79,9 @@ def test_block(board):
 
 def test_fill(board):
     for n in range(1,5):
-        board = color_pixel(board, n, n)
+        board = color_pixel(board, (n, n), 'X')
 
-    board = fill_pixel(board, 3, 2, '+')
+    board = fill_pixel(board, (3, 2), '+')
 
     assert string(board) == dedent(
         '''\
