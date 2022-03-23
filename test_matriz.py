@@ -34,7 +34,7 @@ def test_clean():
     )
 
 def test_pixel(board):
-    board = color_pixel(2, 2, 'W', board)
+    board = color_pixel(board, 2, 2, 'W')
     assert string(board) == dedent(
         '''\
         OOOO
@@ -45,7 +45,7 @@ def test_pixel(board):
     )
 
 def test_vertical(board):
-    board = ver_pixel('2 2 4 W'.split(), board)
+    board = ver_pixel(board,2,2,4,'W')
     assert string(board) == dedent(
         '''\
         OOOO
@@ -56,7 +56,7 @@ def test_vertical(board):
     )
 
 def test_horizontal(board):
-    board = hor_pixel('2 3 3 W'.split(), board)
+    board = hor_pixel(board,2,3,3,'W')
     assert string(board) == dedent(
         '''\
         OOOO
@@ -67,7 +67,7 @@ def test_horizontal(board):
     )
 
 def test_block(board):
-    board = block_pixel('2 2 3 4 W'.split(), board)
+    board = block_pixel(board,2,2,3,4,'W')
     assert string(board) == dedent(
         '''\
         OOOO
@@ -79,9 +79,9 @@ def test_block(board):
 
 def test_fill(board):
     for n in range(1,5):
-        board = color_pixel(f'{n} {n} X'.split(), board)
+        board = color_pixel(board, n, n)
 
-    board = fill_pixel('3 2 +'.split(), board)
+    board = fill_pixel(board, 3, 2, '+')
 
     assert string(board) == dedent(
         '''\
