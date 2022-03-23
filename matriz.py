@@ -88,10 +88,9 @@ def read_sequence():
         return sqc
 
 
-def create_array(cmd, value=BLANK):
+def create_array(w, h, value=BLANK):
     """Create a array - 'I' Command."""
-    col, row = int(cmd[0]), int(cmd[1]) # TODO
-    return [[value] * col for _ in range(row)]
+    return [[value] * w for _ in range(h)]
 
 
 def clean_array(board, value=BLANK):
@@ -166,7 +165,7 @@ def main():
                 break
 
             elif cmd[0] == "I":
-                board = create_array(cmd[1:3])
+                board = create_array(int(cmd[0]), int(cmd[1]))
 
             elif cmd[0] == "L":
                 board = color_pixel(cmd[1:4], board)
