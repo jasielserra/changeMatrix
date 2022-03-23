@@ -106,16 +106,14 @@ def color_pixel(board, coord, color):
     return board
 
 
-def ver_pixel(cmd, board):
+def ver_pixel(board, col, row_start, row_end, color):
     """Change the color of a column - 'V' Command."""
-    col, row_start, row_end, color = int(cmd[0]), int(cmd[1]), int(cmd[2]), cmd[3]
     set_many(board, region(col, row_start, col, row_end), color)
     return board
 
 
-def hor_pixel(cmd, board):
+def hor_pixel(board, col_start, col_end, row, color):
     """Change the color of a line - 'H' Command."""
-    col_start, col_end, row, color = int(cmd[0]), int(cmd[1]), int(cmd[2]), cmd[3]
     set_many(board, region(col_start, row, col_end, row), color)
     return board
 
@@ -166,13 +164,13 @@ def main():
                 board = create_array(int(cmd[0]), int(cmd[1]))
 
             elif cmd[0] == "L":
-                board = color_pixel(board, (int(cmd[0])), int(cmd[1]), cmd[2])
+                board = color_pixel(board, (int(cmd[0]), int(cmd[1])), cmd[2])
 
             elif cmd[0] == "V":
-                board = ver_pixel(cmd[1:5], board)
+                board = ver_pixel(board, int(cmd[0]), int(cmd[1]), int(cmd[2]), cmd[3])
 
             elif cmd[0] == "H":
-                board = hor_pixel(cmd[1:5], board)
+                board = hor_pixel(board, int(cmd[0]), int(cmd[1]), int(cmd[2]), cmd[3])
 
             elif cmd[0] == "K":
                 board = block_pixel(cmd[1:6], board)
