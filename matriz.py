@@ -118,9 +118,8 @@ def hor_pixel(board, col_start, col_end, row, color):
     return board
 
 
-def block_pixel(cmd, board):
+def block_pixel(board, col_start, row_start, col_end, row_end, color):
     """Change color of an entire block - 'K' Command."""
-    col_start, row_start, col_end, row_end, color = int(cmd[0]), int(cmd[1]), int(cmd[2]), int(cmd[3]), cmd[4]
     set_many(board, region(col_start, row_start, col_end, row_end), color)
     return board
 
@@ -173,7 +172,7 @@ def main():
                 board = hor_pixel(board, int(cmd[0]), int(cmd[1]), int(cmd[2]), cmd[3])
 
             elif cmd[0] == "K":
-                board = block_pixel(cmd[1:6], board)
+                board = block_pixel(board, int(cmd[0]), int(cmd[1]), int(cmd[2]), int(cmd[3]), cmd[4])
 
             elif cmd[0] == "F":
                 board = fill_pixel(cmd[1:4], board)
