@@ -148,6 +148,20 @@ def save_array(filename, board):
 def string(board):
     return '\n'.join(("".join(row) for row in board))
 
+def prompt(convert):
+    while True:
+        value = input('> ')
+        value = value.strip()
+
+        try:
+            value = convert(value)
+        except ValueError as e:
+            print(e)
+        else:
+            break
+
+    return value
+
 
 def main():
     while True:
