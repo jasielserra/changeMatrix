@@ -162,6 +162,18 @@ def prompt(convert):
 
     return value
 
+def parse(text, options):
+    '''Parse and validate a command string.'''
+    tokens = text.upper().split()
+
+    if not tokens or tokens[0] not in options:
+        raise ValueError('Comando inválido.')
+
+    for i, t in enumerate(tokens):
+        if t.isdigits():
+            tokens[i] = int(t)
+
+    return tokens
 
 def main():
     while True:

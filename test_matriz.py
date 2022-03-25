@@ -4,7 +4,7 @@ from unittest.mock import patch
 
 import pytest
 from matriz import create_array, string, clean_array, color_pixel, ver_pixel, hor_pixel, block_pixel, save_array, \
-    fill_pixel
+    fill_pixel, parse
 
 
 @pytest.fixture
@@ -98,3 +98,17 @@ def test_save(board):
 
     file = mock.return_value.__enter__.return_value
     file.write.assert_called_once_with(string(board))
+
+
+def test_parse():
+    assert parse('X') == ['X']
+    assert parse('I 4 5') == ['I', 4, 5]
+    assert parse('F 3 2 +') == ['F', 3, 2, '+']
+    assert parse('K 2 2 3 4 W') == ['K', 2,2,3,4,'W']
+    assert parse('S out.bmp') == ['S', 'OUT.BMP']
+
+    assert parse(' X ') == ['X']
+
+    with pytest.raises(ValueError):
+        parse('')
+        parse('!')
