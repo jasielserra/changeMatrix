@@ -94,7 +94,7 @@ def test_fill(board):
 
 def test_save(board):
     with patch('builtins.open', spec=io.IOBase) as mock:
-        save_array('out.bmp', board)
+        save_array(board,'out.bmp')
 
     file = mock.return_value.__enter__.return_value
     file.write.assert_called_once_with(string(board))

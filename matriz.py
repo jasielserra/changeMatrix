@@ -139,7 +139,7 @@ def fill_pixel(board, coord, new_color):
     return board
 
 
-def save_array(filename, board):
+def save_array(board, filename):
     """ Save the array with the 'S' command. """
     with open(filename, "w") as f:
         f.write(string(board))
@@ -162,7 +162,7 @@ def prompt(convert):
 
     return value
 
-def parse(text, options):
+def parse(text, options='ICLVHKFSX'):
     '''Parse and validate a command string.'''
     tokens = text.upper().split()
 
@@ -170,7 +170,7 @@ def parse(text, options):
         raise ValueError('Comando inválido.')
 
     for i, t in enumerate(tokens):
-        if t.isdigits():
+        if t.isdigit():
             tokens[i] = int(t)
 
     return tokens
@@ -178,37 +178,35 @@ def parse(text, options):
 def main():
     while True:
         try:
-            cmd = read_sequence()
+            print(string(board))
 
-            if cmd[0] == "X":
+            cmd, *args = prompt(parse)
+            if cmd == "X":
                 break
 
-            elif cmd[0] == "I":
+            elif cmd == "I":
                 board = create_array(int(cmd[0]), int(cmd[1]))
 
-            elif cmd[0] == "L":
-                board = color_pixel(board, (int(cmd[0]), int(cmd[1])), cmd[2])
+            elif cmd == "L":
+                board = color_pixel(board, *args)
 
-            elif cmd[0] == "V":
-                board = ver_pixel(board, int(cmd[0]), int(cmd[1]), int(cmd[2]), cmd[3])
+            elif cmd == "V":
+                board = ver_pixel(board, *args)
 
-            elif cmd[0] == "H":
-                board = hor_pixel(board, int(cmd[0]), int(cmd[1]), int(cmd[2]), cmd[3])
+            elif cmd == "H":
+                board = hor_pixel(board, *args)
 
-            elif cmd[0] == "K":
-                board = block_pixel(board, int(cmd[0]), int(cmd[1]), int(cmd[2]), int(cmd[3]), cmd[4])
+            elif cmd == "K":
+                board = block_pixel(board, *args)
 
-            elif cmd[0] == "F":
-                board = fill_pixel(board, (int(cmd[0]), int(cmd[1])), cmd[2])
+            elif cmd == "F":
+                board = fill_pixel(board, *args)
 
-            elif cmd[0] == "S":
-                save_array(cmd[1], board)
+            elif cmd == "S":
+                save_array(board, *args)
 
-            elif cmd[0] == "C":
+            elif cmd == "C":
                 board = clean_array(board)
-
-            else:
-                continue
 
             print(string(board))
 
