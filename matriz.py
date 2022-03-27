@@ -158,9 +158,8 @@ def parse(text, options='ICLVHKFSX'):
 def main():
     board = []
     while True:
-        try:
+
             print(string(board))
-            cmd, *args = prompt(parse)
 
             d = {
                 'X': sys.exit,
@@ -174,37 +173,9 @@ def main():
                 'C': clean_array,
             }
 
-            if cmd == "X":
-                break
-
-            elif cmd == "I":
-                create_array(board, *args)
-
-            elif cmd == "L":
-                color_pixel(board, *args)
-
-            elif cmd == "V":
-                ver_pixel(board, *args)
-
-            elif cmd == "H":
-                hor_pixel(board, *args)
-
-            elif cmd == "K":
-                block_pixel(board, *args)
-
-            elif cmd == "F":
-                fill_pixel(board, *args)
-
-            elif cmd == "S":
-                save_array(board, *args)
-
-            elif cmd == "C":
-                board = clean_array(board)
-
-            print(string(board))
-
-        except:
-            print("\nComando inválido!\n")
+            cmd, *args = prompt(parse)
+            f = d[cmd]
+            f(board, *args)
 
 
 if __name__ == '__main__':
