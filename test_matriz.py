@@ -25,7 +25,7 @@ def test_create(board):
 
 def test_clean():
     board = []
-    create_array(4, 5, 'X')
+    create_array(board, 4, 5, 'X')
     clean_array(board)
     assert string(board) == dedent(
         '''\
