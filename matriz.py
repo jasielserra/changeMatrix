@@ -98,31 +98,27 @@ def clean_array(board, value=BLANK):
     """ Clean a array - 'C' Command."""
     # TODO: range conhece muito sobre a estrutura do board.
     set_many(board, coords_of(board), value)
-    return board
 
 
 def color_pixel(board, coord, color):
     """ Change the color of one pixel - 'L' Command. """
     set_item(board, coord, color)
-    return board
 
 
 def ver_pixel(board, col, row_start, row_end, color):
     """Change the color of a column - 'V' Command."""
     set_many(board, region(col, row_start, col, row_end), color)
-    return board
 
 
 def hor_pixel(board, col_start, col_end, row, color):
     """Change the color of a line - 'H' Command."""
     set_many(board, region(col_start, row, col_end, row), color)
-    return board
 
 
 def block_pixel(board, col_start, row_start, col_end, row_end, color):
     """Change color of an entire block - 'K' Command."""
     set_many(board, region(col_start, row_start, col_end, row_end), color)
-    return board
+
 
 def fill_pixel(board, coord, new_color):
     """ Fill a continuous region 'F' command."""
@@ -137,7 +133,6 @@ def fill_pixel(board, coord, new_color):
 
     set_many(board, flood(coord, inside=bound, key=same_color), new_color)
 
-    return board
 
 
 def save_array(board, filename):
