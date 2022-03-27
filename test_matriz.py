@@ -70,7 +70,7 @@ def test_horizontal(board):
     )
 
 def test_block(board):
-    board = block_pixel(board,2,2,3,4,'W')
+    block_pixel(board,2,2,3,4,'W')
     assert string(board) == dedent(
         '''\
         OOOO

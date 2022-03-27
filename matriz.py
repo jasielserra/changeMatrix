@@ -73,22 +73,6 @@ def coords_of(board):
     yield from region(1, 1, width(board), height(board))
 
 
-def read_sequence():
-    """
-    Read and validate a sequence of commands.
-    """
-    charValid = ("ICLVHKFSX")
-    sqc = input("Digite um comando: ").upper()
-    sqc = sqc.split()
-
-    for char in charValid:
-        if char == sqc[0] and not "":
-            return sqc
-    else:
-        print("\nComando Inválido!\n")
-        return sqc
-
-
 def create_array(board, w, h, value=BLANK):
     """Create a array - 'I' Command."""
     board[:] = [[value] * w for _ in range(h)]
