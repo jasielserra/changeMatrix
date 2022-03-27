@@ -9,7 +9,9 @@ from matriz import create_array, string, clean_array, color_pixel, ver_pixel, ho
 
 @pytest.fixture
 def board():
-    return create_array(4, 5)
+    board = []
+    create_array(board, 4, 5)
+    return board
 
 def test_create(board):
     assert string(board) == dedent(
@@ -22,8 +24,9 @@ def test_create(board):
     )
 
 def test_clean():
-    board = create_array(4, 5, 'X')
-    board = clean_array(board)
+    board = []
+    create_array(4, 5, 'X')
+    clean_array(board)
     assert string(board) == dedent(
         '''\
         OOOO
@@ -34,7 +37,7 @@ def test_clean():
     )
 
 def test_pixel(board):
-    board = color_pixel(board, (2, 2), 'W')
+    color_pixel(board, (2, 2), 'W')
     assert string(board) == dedent(
         '''\
         OOOO
@@ -45,7 +48,7 @@ def test_pixel(board):
     )
 
 def test_vertical(board):
-    board = ver_pixel(board,2,2,4,'W')
+    ver_pixel(board,2,2,4,'W')
     assert string(board) == dedent(
         '''\
         OOOO
@@ -56,7 +59,7 @@ def test_vertical(board):
     )
 
 def test_horizontal(board):
-    board = hor_pixel(board,2,3,3,'W')
+    hor_pixel(board,2,3,3,'W')
     assert string(board) == dedent(
         '''\
         OOOO
@@ -79,9 +82,9 @@ def test_block(board):
 
 def test_fill(board):
     for n in range(1,5):
-        board = color_pixel(board, (n, n), 'X')
+        color_pixel(board, (n, n), 'X')
 
-    board = fill_pixel(board, (3, 2), '+')
+    fill_pixel(board, (3, 2), '+')
 
     assert string(board) == dedent(
         '''\

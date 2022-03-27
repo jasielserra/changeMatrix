@@ -1,4 +1,5 @@
 # -*- coding: utf8 -*-
+import sys
 from collections import deque
 
 BLANK = "O"
@@ -88,9 +89,9 @@ def read_sequence():
         return sqc
 
 
-def create_array(w, h, value=BLANK):
+def create_array(board, w, h, value=BLANK):
     """Create a array - 'I' Command."""
-    return [[value] * w for _ in range(h)]
+    board[:] = [[value] * w for _ in range(h)]
 
 
 def clean_array(board, value=BLANK):
@@ -176,31 +177,44 @@ def parse(text, options='ICLVHKFSX'):
     return tokens
 
 def main():
+    board = []
     while True:
         try:
             print(string(board))
-
             cmd, *args = prompt(parse)
+
+            d = {
+                'X': sys.exit,
+                'I': create_array,
+                'L': color_pixel,
+                'V': ver_pixel,
+                'H': hor_pixel,
+                'K': block_pixel,
+                'F': fill_pixel,
+                'S': save_array,
+                'C': clean_array,
+            }
+
             if cmd == "X":
                 break
 
             elif cmd == "I":
-                board = create_array(int(cmd[0]), int(cmd[1]))
+                create_array(board, *args)
 
             elif cmd == "L":
-                board = color_pixel(board, *args)
+                color_pixel(board, *args)
 
             elif cmd == "V":
-                board = ver_pixel(board, *args)
+                ver_pixel(board, *args)
 
             elif cmd == "H":
-                board = hor_pixel(board, *args)
+                hor_pixel(board, *args)
 
             elif cmd == "K":
-                board = block_pixel(board, *args)
+                block_pixel(board, *args)
 
             elif cmd == "F":
-                board = fill_pixel(board, *args)
+                fill_pixel(board, *args)
 
             elif cmd == "S":
                 save_array(board, *args)
