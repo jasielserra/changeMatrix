@@ -1,6 +1,7 @@
 # -*- coding: utf8 -*-
 import sys
 from collections import deque
+from os import system
 
 BLANK = "O"
 
@@ -34,17 +35,20 @@ def contains(board, coord):
     """Check if a cmd is out of list range."""
     return 1 <= x(coord) <= width(board) and 1 <= y(coord) <= height(board)
 
-def flood(coord, inside, key, strategy=((-1,0), (1,0), (0,-1), (0, 1))):
-    if not inside(coord):
-        return
+def string(board):
+    return '\n'.join(("".join(row) for row in board))
 
-    yield coord
-
-    neighbor = (offset(coord, rel) for rel in strategy)
-
-    for n in neighbor:
-        if inside(n) and key(n):
-                yield from flood(n, inside, key)
+#def flood(coord, inside, key, strategy=((-1,0), (1,0), (0,-1), (0, 1))):
+#    if not inside(coord):
+#        return
+#
+#    yield coord
+#
+#    neighbor = (offset(coord, rel) for rel in strategy)
+#
+#    for n in neighbor:
+#        if inside(n) and key(n):
+#                yield from flood(n, inside, key)
 
 def flood(original, inside, key, strategy=((-1,0), (1,0), (0,-1), (0, 1))):
     visited = set()
@@ -80,7 +84,6 @@ def create_array(board, w, h, value=BLANK):
 
 def clean_array(board, value=BLANK):
     """ Clean a array - 'C' Command."""
-    # TODO: range conhece muito sobre a estrutura do board.
     set_many(board, coords_of(board), value)
 
 
@@ -126,9 +129,6 @@ def save_array(board, filename):
         f.write(string(board))
 
 
-def string(board):
-    return '\n'.join(("".join(row) for row in board))
-
 def prompt(convert):
     while True:
         value = input('> ')
@@ -144,7 +144,7 @@ def prompt(convert):
     return value
 
 def parse(text, options='ICLVHKFSX'):
-    '''Parse and validate a command string.'''
+    """Parse and validate a command string."""
     tokens = text.upper().split()
 
     if not tokens or tokens[0] not in options:
@@ -177,9 +177,17 @@ def main():
     board = []
 
     while True:
-        print(string(board))
-        cmd = prompt(parse)
-        invoke(board, cmd)
+        try:
+            system('clear')
+            print(string(board))
+            cmd = prompt(parse)
+            invoke(board, cmd)
+
+        except TypeError:
+            print('Argumentos inválidos.')
+
+        except KeyboardInterrupt:
+            break
 
 
 if __name__ == '__main__':
