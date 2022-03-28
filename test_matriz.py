@@ -3,8 +3,7 @@ from textwrap import dedent
 from unittest.mock import patch
 
 import pytest
-from matriz import create_array, string, clean_array, color_pixel, ver_pixel, hor_pixel, block_pixel, save_array, \
-    fill_pixel, parse, invoke
+from matriz import parse, invoke, string
 
 
 @pytest.fixture
@@ -25,8 +24,8 @@ def test_create(board):
 
 def test_clean():
     board = []
-    create_array(board, 4, 5, 'X')
-    clean_array(board)
+    invoke(board, ['I',4, 5, 'X'])
+    invoke(board, ['C'])
     assert string(board) == dedent(
         '''\
         OOOO
@@ -37,7 +36,7 @@ def test_clean():
     )
 
 def test_pixel(board):
-    color_pixel(board, (2, 2), 'W')
+    invoke(board, ['L',2, 2, 'W'])
     assert string(board) == dedent(
         '''\
         OOOO
@@ -48,7 +47,7 @@ def test_pixel(board):
     )
 
 def test_vertical(board):
-    ver_pixel(board,2,2,4,'W')
+    invoke(board, ['V',2,2,4,'W'])
     assert string(board) == dedent(
         '''\
         OOOO
@@ -59,7 +58,7 @@ def test_vertical(board):
     )
 
 def test_horizontal(board):
-    hor_pixel(board,2,3,3,'W')
+    invoke(board,['H',2,3,3,'W'])
     assert string(board) == dedent(
         '''\
         OOOO
@@ -70,7 +69,7 @@ def test_horizontal(board):
     )
 
 def test_block(board):
-    block_pixel(board,2,2,3,4,'W')
+    invoke(board, ['K',2,2,3,4,'W'])
     assert string(board) == dedent(
         '''\
         OOOO
@@ -82,9 +81,9 @@ def test_block(board):
 
 def test_fill(board):
     for n in range(1,5):
-        color_pixel(board, (n, n), 'X')
+        invoke(board, ['L',n, n, 'X'])
 
-    fill_pixel(board, (3, 2), '+')
+    invoke(board, ['F',3, 2, '+'])
 
     assert string(board) == dedent(
         '''\
@@ -97,7 +96,7 @@ def test_fill(board):
 
 def test_save(board):
     with patch('builtins.open', spec=io.IOBase) as mock:
-        save_array(board,'out.bmp')
+        invoke(board,['S','out.bmp'])
 
     file = mock.return_value.__enter__.return_value
     file.write.assert_called_once_with(string(board))
