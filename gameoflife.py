@@ -12,9 +12,11 @@ SURROUDING = tuple((a,b)
                    for b in range(-1,2)
                    if not (a == b == 0))
 
+
+def neighbors(c):
+    yield from (offset(c, r) for r in SURROUDING)
+
 def main():
-    def neighbors(c):
-        yield from (offset(c,r) for r in SURROUDING)
 
     board = []
     create_array(board, 50, 25, DEAD)
@@ -27,6 +29,14 @@ def main():
     new_board = deepcopy(board)
     for coord in coords_of(board):
         status = get_item(board, coord)
+
+        total = 0
+        for n in neighbors(coord):
+            ns = get_item(board, n)
+            if ns == LIVE:
+                total += 1
+
+
 
 
 
