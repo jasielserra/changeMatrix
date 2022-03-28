@@ -4,13 +4,13 @@ from unittest.mock import patch
 
 import pytest
 from matriz import create_array, string, clean_array, color_pixel, ver_pixel, hor_pixel, block_pixel, save_array, \
-    fill_pixel, parse
+    fill_pixel, parse, invoke
 
 
 @pytest.fixture
 def board():
     board = []
-    create_array(board, 4, 5)
+    invoke(board, ['I', 4, 5])
     return board
 
 def test_create(board):
