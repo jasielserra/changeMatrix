@@ -84,9 +84,9 @@ def clean_array(board, value=BLANK):
     set_many(board, coords_of(board), value)
 
 
-def color_pixel(board, coord, color):
+def color_pixel(board, col, row, color):
     """ Change the color of one pixel - 'L' Command. """
-    set_item(board, coord, color)
+    set_item(board, (col, row), color)
 
 
 def ver_pixel(board, col, row_start, row_end, color):
@@ -104,8 +104,9 @@ def block_pixel(board, col_start, row_start, col_end, row_end, color):
     set_many(board, region(col_start, row_start, col_end, row_end), color)
 
 
-def fill_pixel(board, coord, new_color):
+def fill_pixel(board, col, row , new_color):
     """ Fill a continuous region 'F' command."""
+    coord = (col, row)
 
     old_color = get_item(board, coord)
 
@@ -155,27 +156,30 @@ def parse(text, options='ICLVHKFSX'):
 
     return tokens
 
+def invoke(board, tokens):
+    commands = {
+        'X': sys.exit,
+        'I': create_array,
+        'L': color_pixel,
+        'V': ver_pixel,
+        'H': hor_pixel,
+        'K': block_pixel,
+        'F': fill_pixel,
+        'S': save_array,
+        'C': clean_array,
+    }
+
+    cmd, *args = tokens
+    f = commands[cmd]
+    f(board, *args)
+
 def main():
     board = []
+
     while True:
-
-            print(string(board))
-
-            d = {
-                'X': sys.exit,
-                'I': create_array,
-                'L': color_pixel,
-                'V': ver_pixel,
-                'H': hor_pixel,
-                'K': block_pixel,
-                'F': fill_pixel,
-                'S': save_array,
-                'C': clean_array,
-            }
-
-            cmd, *args = prompt(parse)
-            f = d[cmd]
-            f(board, *args)
+        print(string(board))
+        cmd = prompt(parse)
+        invoke(board, cmd)
 
 
 if __name__ == '__main__':
