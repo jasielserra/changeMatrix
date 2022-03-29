@@ -31,6 +31,10 @@ def region(col_start, row_start, col_end, row_end):
         for col in range(col_start, col_end + 1):
             yield col, row
 
+def items(board):
+    for coord in coords_of(board):
+        yield coord, get_item(board, coord)
+
 def contains(board, coord):
     """Check if a cmd is out of list range."""
     return 1 <= x(coord) <= width(board) and 1 <= y(coord) <= height(board)
@@ -72,6 +76,10 @@ def flood(original, inside, key, strategy=((-1,0), (1,0), (0,-1), (0, 1))):
 def set_many(board, coords, value):
     for c in coords:
         set_item(board, c, value)
+
+def get_many(board, coords):
+    for c in coords:
+        yield get_item(board, c)
 
 def coords_of(board):
     yield from region(1, 1, width(board), height(board))

@@ -2,10 +2,12 @@ from copy import deepcopy
 from os import system
 from time import sleep
 
-from matriz import create_array, set_many, string, offset, coords_of, get_item, set_item
+from matriz import create_array, set_many, string, offset, coords_of, get_item, set_item, items, get_many
 
 DEAD = chr(0x00B7)
 LIVE = chr(0x2588)
+
+WIDTH, HEIGHT = 50, 25
 
 GLIDER = ((2,1), (3,2), (1,3), (2,3), (3,3))
 
@@ -18,8 +20,27 @@ SURROUDING = tuple((a,b)
 def neighbors(c):
     yield from (offset(c, r) for r in SURROUDING)
 
-def wrap(c,w, h):
-    yield from ((a % w, b % h) for a,b in c)
+def wrap(c):
+    yield from ((a % WIDTH, b % HEIGHT) for a,b in c)
+
+def should_die(total):
+    return total < 2 or total > 3
+
+def should_ressurect(total):
+    return total == 3
+
+def rule(coord, status, total):
+    s = status
+    if status == LIVE:
+        if should_die(total):
+            s = DEAD
+    else:
+        if should_ressurect(total):
+            s = LIVE
+    return s
+
+def how_many_alive(ns):
+    return sum(1 for s in ns if s == LIVE)
 
 def main():
 
@@ -27,29 +48,14 @@ def main():
     create_array(board, 50, 25, DEAD)
     set_many(board, GLIDER, LIVE)
 
+    while True:
+        system('clear')
+        print(string(board))
 
-    system('clear')
-    print(string(board))
-
-    new_board = deepcopy(board)
-    for coord in coords_of(board):
-        status = get_item(board, coord)
-
-        total = 0
-        for n in neighbors(coord):
-            ns = get_item(board, n)
-            if ns == LIVE:
-                total += 1
-
-        s = status = get_item(board, coord)
-        if status == LIVE:
-            if total < 2 or total > 3:
-                s = DEAD
-            else:
-                if total == 3:
-                    s = LIVE
-
-            set_item(new_board, coord, s)
+        new_board = deepcopy(board)
+        for coord, status in items(board):
+            total = how_many_alive(get_many(board, wrap(neighbors(coord))))
+            set_item(new_board, coord, rule(coord, status, total))
 
         board = new_board
         sleep(0.05)
