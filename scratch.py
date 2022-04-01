@@ -5,8 +5,7 @@ class Sorted:
         self.data = items
 
     def heavier(self):
-        self.data.sort()
-        return self.data[-1]
+        return max(self.data)
 
     def get(self, index):
         return self.data[index]
@@ -14,6 +13,6 @@ class Sorted:
 def consumer1(cesta):
     """ Pega a maçã mais pesada."""
     s = Sorted(cesta)
-    return s.heavier()
+    return s.head()
 
 print(consumer1(apples))
