@@ -4,8 +4,9 @@ class Sorted:
     def __init__(self, items):
         self.data = items
 
-    def sort(self):
+    def heavier(self):
         self.data.sort()
+        return self.data[-1]
 
     def get(self, index):
         return self.data[index]
@@ -13,7 +14,6 @@ class Sorted:
 def consumer1(cesta):
     """ Pega a maçã mais pesada."""
     s = Sorted(cesta)
-    s.sort()
-    return s.get(-1)
+    return s.heavier()
 
 print(consumer1(apples))
