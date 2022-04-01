@@ -49,19 +49,19 @@ def main():
     set_many(board, GLIDER, LIVE)
 
     while True:
-        system('clear')
+        #system('clear')
         print(string(board))
 
         new_board = deepcopy(board)
         for coord, status in items(board):
-            total = how_many_alive(get_many(board, wrap(neighbors(coord))))
+            ncoords = wrap(neighbors(coord))
+            nstatus = get_many(board, ncoords)
+            total = how_many_alive(nstatus)
+
             set_item(new_board, coord, rule(coord, status, total))
 
         board = new_board
-        sleep(0.05)
-
-
-
+        sleep(0.3)
 
 
 
