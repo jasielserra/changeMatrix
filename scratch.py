@@ -4,7 +4,7 @@ class Sorted:
     def __init__(self, items):
         self.data = items
 
-    def heavier(self):
+    def head(self):
         return max(self.data)
 
     def get(self, index):
