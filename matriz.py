@@ -11,11 +11,11 @@ def width(board):
 def height(board):
     return len(board)
 
-def x(coord):
-    return coord[0]
+def x(c):
+    return c[0]
 
-def y(coord):
-    return coord[1]
+def y(c):
+    return c[1]
 
 def offset(coord, rel):
     return x(coord) + x(rel), y(coord) + y(rel)
@@ -85,12 +85,12 @@ def coords_of(board):
     yield from region(1, 1, width(board), height(board))
 
 
-def create_array(board, w, h, value=BLANK):
+def create(board, w, h):
     """Create a array - 'I' Command."""
-    board[:] = [[value] * w for _ in range(h)]
+    board[:] = [[BLANK] * w for _ in range(h)]
 
 
-def clean_array(board, value=BLANK):
+def clear(board, value=BLANK):
     """ Clean a array - 'C' Command."""
     set_many(board, coords_of(board), value)
 
@@ -167,14 +167,14 @@ def parse(text, options='ICLVHKFSX'):
 def invoke(board, tokens):
     commands = {
         'X': sys.exit,
-        'I': create_array,
+        'I': create,
         'L': color_pixel,
         'V': ver_pixel,
         'H': hor_pixel,
         'K': block_pixel,
         'F': fill_pixel,
         'S': save_array,
-        'C': clean_array,
+        'C': clear,
     }
 
     cmd, *args = tokens

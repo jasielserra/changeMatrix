@@ -18,10 +18,10 @@ SURROUDING = tuple((a,b)
 
 
 def neighbors(c):
-    yield from (offset(c, r) for r in SURROUDING)
+    yield from ((x(c) + a, y(c) + b) for a, b in SURROUDING)
 
-def wrap(c):
-    yield from ((a % WIDTH, b % HEIGHT) for a,b in c)
+def wrap(c, w, h):
+    yield from ((a % w, b % h for a,b in c))
 
 def should_die(total):
     return total < 2 or total > 3
@@ -29,7 +29,7 @@ def should_die(total):
 def should_ressurect(total):
     return total == 3
 
-def rule(coord, status, total):
+def rule(c, status, total):
     s = status
     if status == LIVE:
         if should_die(total):
@@ -39,13 +39,14 @@ def rule(coord, status, total):
             s = LIVE
     return s
 
-def how_many_alive(ns):
-    return sum(1 for s in ns if s == LIVE)
+def how_many_alive(l):
+    return sum(1 for s in l if s == LIVE)
 
 def main():
 
     board = []
-    create_array(board, 50, 25, DEAD)
+    create(board, 50, 25)
+    clear(board, DEAD)
     set_many(board, GLIDER, LIVE)
 
     while True:
@@ -55,17 +56,17 @@ def main():
 
             new_board = deepcopy(board)
             for coord, status in items(board):
-                ncoords = wrap(neighbors(coord))
-                nstatus = get_many(board, ncoords)
-                total = how_many_alive(nstatus)
+                n = neighbors(coord)
+                n = wrap(n, width(board), height(board))
+                ns = get_many(board, n)
+                total = how_many_alive(ns)
 
                 set_item(new_board, coord, rule(coord, status, total))
 
             board = new_board
             sleep(0.05)
-        except(KeyboardInterrupt, SystemExit):
+        except (KeyboardInterrupt, SystemExit):
             break
-
 
 
 if __name__ == '__main__':
