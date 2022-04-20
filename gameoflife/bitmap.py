@@ -6,6 +6,15 @@ from os import system
 BLANK = "O"
 BOARD = []
 
+class Board:
+    def __init__(self, w, h, value=BLANK):
+        """Create a array - 'I' Command."""
+        self.board[:] = [[value] * w for _ in range(h)]
+
+    def __str__(self):
+        """Print the Board"""
+        return '\n'.join(("".join(row) for row in self))
+
 def get_board():
     return BOARD
 
@@ -30,8 +39,6 @@ def set_item(board, coord, value):
 def get_item(board, coord):
     return board[y(coord) - 1][x(coord) - 1]
 
-def string(board):
-    return '\n'.join(("".join(row) for row in board))
 
 def region(col_start, row_start, col_end, row_end):
     for row in range(row_start, row_end + 1):
@@ -41,10 +48,6 @@ def region(col_start, row_start, col_end, row_end):
 def contains(board, coord):
     """Check if a cmd is out of list range."""
     return 1 <= x(coord) <= width(board) and 1 <= y(coord) <= height(board)
-
-def create(board, w, h, value=BLANK):
-    """Create a array - 'I' Command."""
-    board[:] = [[value] * w for _ in range(h)]
 
 '''
 def clear(board, value=BLANK):
