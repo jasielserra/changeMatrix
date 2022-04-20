@@ -1,3 +1,3 @@
-from gameoflife import main
+from gameoflife.core import main
 
 main()

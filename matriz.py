@@ -1,30 +1,4 @@
-# -*- coding: utf8 -*-
-import sys
-from collections import deque
-from os import system
 
-BLANK = "O"
-
-def width(board):
-    return len(board[0])
-
-def height(board):
-    return len(board)
-
-def x(c):
-    return c[0]
-
-def y(c):
-    return c[1]
-
-def offset(coord, rel):
-    return x(coord) + x(rel), y(coord) + y(rel)
-
-def set_item(board, coord, value):
-    board[y(coord) - 1][x(coord) - 1] = value
-
-def get_item(board, coord):
-    return board[y(coord) - 1][x(coord) - 1]
 
 def region(col_start, row_start, col_end, row_end):
     for row in range(row_start, row_end + 1):
@@ -39,8 +13,7 @@ def contains(board, coord):
     """Check if a cmd is out of list range."""
     return 1 <= x(coord) <= width(board) and 1 <= y(coord) <= height(board)
 
-def string(board):
-    return '\n'.join(("".join(row) for row in board))
+
 
 #def flood(coord, inside, key, strategy=((-1,0), (1,0), (0,-1), (0, 1))):
 #    if not inside(coord):
