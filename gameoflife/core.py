@@ -3,7 +3,7 @@ from os import system
 from time import sleep
 from gameoflife import bitmap
 from gameoflife.bitmap import string, offset, get_item, set_item, width, height, create, set_many, items, \
-    get_many
+    get_many, Board
 
 DEAD = chr(0x00B7)
 LIVE = chr(0x2588)
@@ -42,9 +42,9 @@ def how_many_alive(l):
     return sum(1 for s in l if s == LIVE)
 
 def main():
-    board = bitmap.BOARD
-    create(board, 50, 25, DEAD)
-    set_many(board, GLIDER, LIVE)
+    board = Board(50, 25, DEAD)
+    #create(board, 50, 25, DEAD)
+    board.set_many(GLIDER, LIVE)
 
     while True:
         try:
@@ -52,15 +52,17 @@ def main():
             print(string(board))
 
             new_board = deepcopy(board)
-            for coord, status in items(board):
+            for coord, status in board.items():
                 n = neighbors(coord)
-                n = wrap(n, width(board), height(board))
-                ns = get_many(board, n)
+                n = wrap(n, board.width, board.height)
+                ns = board.get_many(n)
                 total = how_many_alive(ns)
 
-                set_item(new_board, coord, rule(coord, status, total))
+                new_board[coord] = rule(coord, status, total)
+                #set_item(new_board, coord, rule(coord, status, total))
 
             board = new_board
+
             sleep(0.05)
         except (KeyboardInterrupt, SystemExit):
             break

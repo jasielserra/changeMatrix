@@ -15,14 +15,39 @@ class Board:
         """Print the Board"""
         return '\n'.join(("".join(row) for row in self))
 
+    @property
+    def width(self):
+        return len(self.board[0])
+
+    @property
+    def height(self):
+        return len(self.board)
+
+    def __get_item__(self, coord):
+        return self.board[y(coord) - 1][x(coord) - 1]
+
+    def __set_item__(self, coord, value):
+        self.board[y(coord) - 1][x(coord) - 1] = value
+
+    def set_many(self, coords, value):
+        for c in coords:
+            self[c] = value
+
+    def items(self):
+        for coord in coords_of(self):
+            yield coord, self[coord]
+
+    def get_many(self, coords):
+        for coord in coords:
+            yield self[coord]
+
+    def __contains__(self, coord):
+        """Check if a cmd is out of list range."""
+        return 1 <= x(coord) <= self.width and 1 <= y(coord) <= self.height
+
+
 def get_board():
     return BOARD
-
-def width(board):
-    return len(board[0])
-
-def height(board):
-    return len(board)
 
 def x(c):
     return c[0]
@@ -33,21 +58,18 @@ def y(c):
 def offset(coord, rel):
     return x(coord) + x(rel), y(coord) + y(rel)
 
+'''
 def set_item(board, coord, value):
     board[y(coord) - 1][x(coord) - 1] = value
 
 def get_item(board, coord):
     return board[y(coord) - 1][x(coord) - 1]
-
+'''
 
 def region(col_start, row_start, col_end, row_end):
     for row in range(row_start, row_end + 1):
         for col in range(col_start, col_end + 1):
             yield col, row
-
-def contains(board, coord):
-    """Check if a cmd is out of list range."""
-    return 1 <= x(coord) <= width(board) and 1 <= y(coord) <= height(board)
 
 '''
 def clear(board, value=BLANK):
@@ -55,9 +77,7 @@ def clear(board, value=BLANK):
     set_many(board, coords_of(board), value)
 '''
 
-def items(board):
-    for coord in coords_of(board):
-        yield coord, get_item(board, coord)
+
 
 #def flood(coord, inside, key, strategy=((-1,0), (1,0), (0,-1), (0, 1))):
 #    if not inside(coord):
@@ -89,16 +109,11 @@ def flood(original, inside, key, strategy=((-1,0), (1,0), (0,-1), (0, 1))):
                     and key(n)):
                 pending.append(n)
 
-def set_many(board, coords, value):
-    for c in coords:
-        set_item(board, c, value)
-
-def get_many(board, coords):
-    for c in coords:
-        yield get_item(board, c)
 
 def coords_of(board):
     yield from region(1, 1, width(board), height(board))
+
+
 
 def color_pixel(board, col, row, color):
     """ Change the color of one pixel - 'L' Command. """
