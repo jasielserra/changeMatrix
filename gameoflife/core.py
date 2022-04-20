@@ -1,9 +1,9 @@
 from copy import deepcopy
 from os import system
 from time import sleep
-from gameoflife.bitmap import string, offset,get_item, set_item, width, height
-
-from matriz import create, set_many, coords_of, items, get_many, clear
+from gameoflife import bitmap
+from gameoflife.bitmap import string, offset, get_item, set_item, width, height, create, set_many, items, \
+    get_many
 
 DEAD = chr(0x00B7)
 LIVE = chr(0x2588)
@@ -42,10 +42,8 @@ def how_many_alive(l):
     return sum(1 for s in l if s == LIVE)
 
 def main():
-
-    board = []
-    create(board, 50, 25)
-    clear(board, DEAD)
+    board = bitmap.BOARD
+    create(board, 50, 25, DEAD)
     set_many(board, GLIDER, LIVE)
 
     while True:
