@@ -1,6 +1,6 @@
 # -*- coding: utf8 -*-
 import sys
-from collections import deque
+from collections import deque, namedtuple
 from os import system
 
 BLANK = "O"
@@ -9,11 +9,11 @@ BOARD = []
 class Board:
     def __init__(self, w, h, value=BLANK):
         """Create a array - 'I' Command."""
-        self.board[:] = [[value] * w for _ in range(h)]
+        self.board = [[value] * w for _ in range(h)]
 
     def __str__(self):
         """Print the Board"""
-        return '\n'.join(("".join(row) for row in self))
+        return '\n'.join(("".join(row) for row in self.board))
 
     @property
     def width(self):
@@ -23,10 +23,10 @@ class Board:
     def height(self):
         return len(self.board)
 
-    def __get_item__(self, coord):
+    def __getitem__(self, coord):
         return self.board[y(coord) - 1][x(coord) - 1]
 
-    def __set_item__(self, coord, value):
+    def __setitem__(self, coord, value):
         self.board[y(coord) - 1][x(coord) - 1] = value
 
     def set_many(self, coords, value):
@@ -45,9 +45,9 @@ class Board:
         """Check if a cmd is out of list range."""
         return 1 <= x(coord) <= self.width and 1 <= y(coord) <= self.height
 
-
-def get_board():
-    return BOARD
+class Coord(namedtuple('Coord', 'x y')):
+    def __add__(self, other):
+        return Coord(self.x + other[0], self.y + other[1])
 
 def x(c):
     return c[0]
@@ -55,27 +55,19 @@ def x(c):
 def y(c):
     return c[1]
 
+def get_board():
+    return BOARD
+
 def offset(coord, rel):
     return x(coord) + x(rel), y(coord) + y(rel)
-
-'''
-def set_item(board, coord, value):
-    board[y(coord) - 1][x(coord) - 1] = value
-
-def get_item(board, coord):
-    return board[y(coord) - 1][x(coord) - 1]
-'''
 
 def region(col_start, row_start, col_end, row_end):
     for row in range(row_start, row_end + 1):
         for col in range(col_start, col_end + 1):
-            yield col, row
+            yield Coord(col, row)
 
-'''
-def clear(board, value=BLANK):
-    """ Clean a array - 'C' Command."""
-    set_many(board, coords_of(board), value)
-'''
+def coords_of(board):
+    yield from region(1, 1, board.width, board.height)
 
 
 
@@ -108,12 +100,6 @@ def flood(original, inside, key, strategy=((-1,0), (1,0), (0,-1), (0, 1))):
                     and inside(n)
                     and key(n)):
                 pending.append(n)
-
-
-def coords_of(board):
-    yield from region(1, 1, width(board), height(board))
-
-
 
 def color_pixel(board, col, row, color):
     """ Change the color of one pixel - 'L' Command. """

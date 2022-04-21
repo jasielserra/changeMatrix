@@ -2,8 +2,9 @@ from copy import deepcopy
 from os import system
 from time import sleep
 from gameoflife import bitmap
-from gameoflife.bitmap import string, offset, get_item, set_item, width, height, create, set_many, items, \
-    get_many, Board
+#from gameoflife.bitmap import string, offset, get_item, set_item, width, height, create, set_many, items, \
+#    get_many, Board
+from gameoflife.bitmap import Board, offset
 
 DEAD = chr(0x00B7)
 LIVE = chr(0x2588)
@@ -16,7 +17,7 @@ SURROUDING = tuple((a,b)
 GLIDER = ((2,1), (3,2), (1,3), (2,3), (3,3))
 
 def neighbors(c):
-    yield from (offset(c, rel) for rel in SURROUDING)
+    yield from (c + rel for rel in SURROUDING)
     #yield from ((x(c) + a, y(c) + b) for a, b in SURROUDING)
 
 def wrap(c, w, h):
@@ -49,7 +50,7 @@ def main():
     while True:
         try:
             system('clear')
-            print(string(board))
+            print(str(board))
 
             new_board = deepcopy(board)
             for coord, status in board.items():
