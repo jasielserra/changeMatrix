@@ -1,10 +1,7 @@
 from copy import deepcopy
 from os import system
 from time import sleep
-from gameoflife import bitmap
-#from gameoflife.bitmap import string, offset, get_item, set_item, width, height, create, set_many, items, \
-#    get_many, Board
-from gameoflife.bitmap import Board, offset
+from gameoflife.bitmap import Board
 
 DEAD = chr(0x00B7)
 LIVE = chr(0x2588)
@@ -42,28 +39,35 @@ def rule(c, status, total):
 def how_many_alive(l):
     return sum(1 for s in l if s == LIVE)
 
-def main():
+def setup():
     board = Board(50, 25, DEAD)
-    #create(board, 50, 25, DEAD)
     board.set_many(GLIDER, LIVE)
+    return board
+
+def update(board):
+    new_board = deepcopy(board)
+    for coord, status in board.items():
+        n = neighbors(coord)
+        n = wrap(n, board.width, board.height)
+        ns = board.get_many(n)
+        total = how_many_alive(ns)
+
+        new_board[coord] = rule(coord, status, total)
+
+    return new_board
+
+def show(board):
+    system('clear')
+    print(board)
+
+
+def main():
+    board = setup()
 
     while True:
         try:
-            system('clear')
-            print(str(board))
-
-            new_board = deepcopy(board)
-            for coord, status in board.items():
-                n = neighbors(coord)
-                n = wrap(n, board.width, board.height)
-                ns = board.get_many(n)
-                total = how_many_alive(ns)
-
-                new_board[coord] = rule(coord, status, total)
-                #set_item(new_board, coord, rule(coord, status, total))
-
-            board = new_board
-
+            board = update(board)
+            show(board)
             sleep(0.05)
         except (KeyboardInterrupt, SystemExit):
             break

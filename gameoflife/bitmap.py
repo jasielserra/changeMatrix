@@ -23,8 +23,13 @@ class Board:
     def height(self):
         return len(self.board)
 
+    @staticmethod
+    def _index(self, coord):
+        return coord - (1,1)
+
     def __getitem__(self, coord):
-        return self.board[y(coord) - 1][x(coord) - 1]
+        c = self._index(coord)
+        return self.board[c.y][c.x]
 
     def __setitem__(self, coord, value):
         self.board[y(coord) - 1][x(coord) - 1] = value
@@ -58,8 +63,9 @@ def y(c):
 def get_board():
     return BOARD
 
-def offset(coord, rel):
-    return x(coord) + x(rel), y(coord) + y(rel)
+#def offset(coord, rel):
+#    ''' Calcula o deslocamento de uma dada coordenada.'''
+#    return x(coord) + x(rel), y(coord) + y(rel)
 
 def region(col_start, row_start, col_end, row_end):
     for row in range(row_start, row_end + 1):
@@ -101,6 +107,7 @@ def flood(original, inside, key, strategy=((-1,0), (1,0), (0,-1), (0, 1))):
                     and key(n)):
                 pending.append(n)
 
+'''
 def color_pixel(board, col, row, color):
     """ Change the color of one pixel - 'L' Command. """
     set_item(board, (col, row), color)
@@ -134,7 +141,7 @@ def fill_pixel(board, col, row , new_color):
         return get_item(board, neighbor) == old_color
 
     set_many(board, flood(coord, inside=bound, key=same_color), new_color)
-
+'''
 def save_array(board, filename):
     """ Save the array with the 'S' command. """
     with open(filename, "w") as f:

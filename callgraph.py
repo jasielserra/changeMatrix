@@ -1,7 +1,7 @@
 import sys
 
-from pycallgraph import PyCallGraph, Config, GlobbingFilter
-from pycallgraph.output import GraphvizOutput
+from pycallgraph2 import PyCallGraph, Config, GlobbingFilter
+from pycallgraph2.output import GraphvizOutput
 
 from gameoflife.core import main
 
