@@ -32,7 +32,8 @@ class Board:
         return self.board[c.y][c.x]
 
     def __setitem__(self, coord, value):
-        self.board[y(coord) - 1][x(coord) - 1] = value
+        c = self._index(coord)
+        self.board[c.y][c.x] = value
 
     def set_many(self, coords, value):
         for c in coords:
